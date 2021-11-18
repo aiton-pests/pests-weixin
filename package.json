@@ -1,0 +1,35 @@
+{
+  "name": "pests-weixin",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "cross-env baseUrl=http://testpests.qiter.com.cn:9000 nuxt",
+    "build": "cross-env baseUrl=http://testpests.qiter.com.cn:9000 nuxt build",
+    "start": "cross-env baseUrl=http://testpests.qiter.com.cn:9000 nuxt start",
+    "generate": "cross-env baseUrl=http://testpests.qiter.com.cn:9000 nuxt generate",
+    "pm2": "cross-env baseUrl=http://testpests.qiter.com.cn:9000 nuxt build && pm2 start npm --name web-name -- run start",
+    "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
+    "lint": "yarn lint:js"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.12.5",
+    "core-js": "^3.8.3",
+    "cross-env": "^7.0.3",
+    "element-ui": "^2.15.1",
+    "nuxt": "^2.14.12"
+  },
+  "config": {
+    "nuxt": {
+      "host": "0.0.0.0",
+      "port": "3000"
+    }
+  },
+  "devDependencies": {
+    "@nuxtjs/eslint-config": "^5.0.0",
+    "@nuxtjs/eslint-module": "^3.0.2",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.18.0",
+    "eslint-plugin-nuxt": "^2.0.0",
+    "eslint-plugin-vue": "^7.5.0"
+  }
+}
