@@ -1,6 +1,17 @@
-job_test:
+stages:
+    - install
+    - build
+    - deploy
+job_install:
+    stage: install
+    script:
+        - npm install
+job_build:
     stage: build
     script:
-        - echo "hello"
-        - uname -a
-    retry: 2
+        - npm run build
+
+job_deploy:
+    stage: deploy
+    script:
+        - echo "start deploy"
