@@ -3,4 +3,5 @@ job_test:
     script:
         - echo "hello"
         - uname -a
-
+        - rspec
+    retry: 2
