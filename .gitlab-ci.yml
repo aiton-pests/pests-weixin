@@ -1,3 +1,4 @@
 job_test:
+    stage: build
     script:
         - echo "hello"
