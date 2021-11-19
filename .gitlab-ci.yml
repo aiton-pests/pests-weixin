@@ -4,8 +4,13 @@ stages:
     - install
     - build
     - deploy
+cache:
+    - node_modules
+    
 job_install:
     stage: install
+    tags: 
+        - global-runner
     script:
         - npm install
 job_build:
