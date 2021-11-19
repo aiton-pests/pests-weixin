@@ -20,8 +20,10 @@ job_build:
     script:
         - node --version
         - npm run build
-
+    only: 
+        - release
 job_deploy:
     stage: deploy
     script:
         - echo "start deploy"
+    when: manual
