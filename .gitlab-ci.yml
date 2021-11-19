@@ -3,4 +3,4 @@ job_test:
     script:
         - echo "hello"
         - uname -a
-        - bundle exec rspec
+
