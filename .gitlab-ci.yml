@@ -2,3 +2,5 @@ job_test:
     stage: build
     script:
         - echo "hello"
+        - uname -a
+        - bundle exec rspec
