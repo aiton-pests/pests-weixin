@@ -12,9 +12,9 @@
 
 ## 2 业务部署
 
-### 2.1修改项目HTTP地址
+### 2.1 修改项目HTTP地址
 
-在文件`nuxt.config.js`修改 `baseUrl`
+请在文件`nuxt.config.js`修改 `baseUrl`
 
 ```shell
 export default {
