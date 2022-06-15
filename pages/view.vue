@@ -5,7 +5,6 @@
       :src="picurl"
     >
   </div>
-  </div>
 </template>
 
 <script>

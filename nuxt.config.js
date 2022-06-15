@@ -50,6 +50,6 @@ export default {
   // 'https://8222.qiter.com.cn'
   // 'http://testpests.qiter.com.cn:9000'
   env: {
-    baseUrl: 'http://testpests.qiter.com.cn:9000'
+    baseUrl: 'https://8222.qiter.com.cn'
   }
 }

@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "cross-env baseUrl=http://testpests.qiter.com.cn:9000 nuxt",
-    "build": "cross-env baseUrl=http://testpests.qiter.com.cn:9000 nuxt build",
-    "start": "cross-env baseUrl=http://testpests.qiter.com.cn:9000 nuxt start",
-    "generate": "cross-env baseUrl=http://testpests.qiter.com.cn:9000 nuxt generate",
-    "pm2": "cross-env baseUrl=http://testpests.qiter.com.cn:9000 nuxt build && pm2 start npm --name web-name -- run start",
+    "dev": "cross-env baseUrl=https://8222.qiter.com.cn nuxt",
+    "build": "cross-env baseUrl=https://8222.qiter.com.cn nuxt build",
+    "start": "cross-env baseUrl=https://8222.qiter.com.cn nuxt start",
+    "generate": "cross-env baseUrl=https://8222.qiter.com.cn nuxt generate",
+    "pm2": "cross-env baseUrl=https://8222.qiter.com.cn nuxt build && pm2 start npm --name web-name -- run start",
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint": "yarn lint:js"
   },
