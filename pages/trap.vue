@@ -1,22 +1,98 @@
 <template>
   <div class="container">
+    <h5 id="title" ref="title" class="title">
+      {{ title }} - {{ qrcode.codeInt }}
+    </h5>
     <el-collapse v-model="activeNames" @change="handleChange">
-      <el-collapse-item title="一致性 Consistency" name="1">
-        <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
-        <div>在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。</div>
-      </el-collapse-item>
-      <el-collapse-item title="反馈 Feedback" name="2">
-        <div>控制反馈：通过界面样式和交互动效让用户可以清晰的感知自己的操作；</div>
-        <div>页面反馈：操作后，通过页面元素的变化清晰地展现当前状态。</div>
-      </el-collapse-item>
-      <el-collapse-item title="效率 Efficiency" name="3">
-        <div>简化流程：设计简洁直观的操作流程；</div>
-        <div>清晰明确：语言表达清晰且表意明确，让用户快速理解进而作出决策；</div>
-        <div>帮助用户识别：界面简单直白，让用户快速识别而非回忆，减少用户记忆负担。</div>
-      </el-collapse-item>
-      <el-collapse-item title="可控 Controllability" name="4">
-        <div>用户决策：根据场景可给予用户操作建议或安全提示，但不能代替用户进行决策；</div>
-        <div>结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。</div>
+      <el-collapse-item v-for="item in trapList" :key="item.id" :title="item.village">
+        <el-form ref="form" :model="item" label-width="80px">
+          <el-form-item label="设备编号">
+            <el-input v-model="item.deviceId" />
+          </el-form-item>
+          <el-form-item label="更换诱芯">
+            <el-select v-model="item.lureReplaced" disabled placeholder="请选择">
+              <el-option
+                v-for="it in options"
+                :key="it.value"
+                :label="it.text"
+                :value="it.value"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="偏移-米">
+            <el-input v-model="item.positionError" />
+          </el-form-item>
+          <el-form-item label="操作员">
+            <el-input v-model="item.operator" />
+          </el-form-item>
+          <el-form-item label="收虫">
+            <el-col :span="11">
+              <el-input v-model="item.scount" />
+            </el-col>
+            <el-col class="line" :span="2">
+              -
+            </el-col>
+            <el-col :span="11">
+              <el-input v-model="item.remark" />
+            </el-col>
+          </el-form-item>
+          <el-form-item label="时间">
+            {{ item.stime | formatDate }}
+          </el-form-item>
+          <el-form-item label="第一张照片">
+            <div class="demo-image">
+              <div class="block">
+                <el-image
+                  style="width: 100%; height: 100%"
+                  :src="item.pic1"
+                />
+              </div>
+            </div>
+          </el-form-item>
+          <el-form-item label="第二张照片">
+            <div class="demo-image">
+              <div class="block">
+                <el-image
+                  style="width: 100%; height: 100%"
+                  :src="item.pic2"
+                />
+              </div>
+            </div>
+          </el-form-item>
+          <el-form-item label="经纬度">
+            <el-col :span="11">
+              <el-input v-model="item.longitude" />
+            </el-col>
+            <el-col class="line" :span="2">
+              -
+            </el-col>
+            <el-col :span="11">
+              <el-input v-model="item.latitude" />
+            </el-col>
+          </el-form-item>
+          <el-form-item label="地址">
+            <el-col :span="11">
+              <el-input v-model="item.town" />
+            </el-col>
+            <el-col class="line" :span="2">
+              -
+            </el-col>
+            <el-col :span="11">
+              <el-input v-model="item.village" />
+            </el-col>
+          </el-form-item>
+          <el-form-item label="大小班">
+            <el-col :span="11">
+              <el-input v-model="item.db" />
+            </el-col>
+            <el-col class="line" :span="2">
+              -
+            </el-col>
+            <el-col :span="11">
+              <el-input v-model="item.xb" />
+            </el-col>
+          </el-form-item>
+        </el-form>
       </el-collapse-item>
     </el-collapse>
   </div>
@@ -24,25 +100,46 @@
 
 <script>
 export default {
-
+  filters: {
+    formatDate (value) {
+      const date = new Date(value)
+      const y = date.getFullYear()
+      let MM = date.getMonth() + 1
+      MM = MM < 10 ? ('0' + MM) : MM
+      let d = date.getDate()
+      d = d < 10 ? ('0' + d) : d
+      let h = date.getHours()
+      h = h < 10 ? ('0' + h) : h
+      let m = date.getMinutes()
+      m = m < 10 ? ('0' + m) : m
+      let s = date.getSeconds()
+      s = s < 10 ? ('0' + s) : s
+      return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s
+    }
+  },
   data () {
     return {
       activeNames: ['1'],
-      pests: {},
+      trapList: {},
       member: {},
       project: {},
       qrcode: {},
       showDetail: true,
       title: '绿树防治',
       options: [
-        { value: 1, text: '已删除' },
-        { value: 0, text: '未删除' }
+        { value: 1, text: '有更换诱芯' },
+        { value: 0, text: '没有更换诱芯' }
       ],
       pestsTypeoptions: [
         { value: '诱木', text: '诱木' },
         { value: '诱捕器', text: '诱捕器' },
         { value: '砍倒的树', text: '砍倒的树' }
       ]
+    }
+  },
+  computed: {
+    lrelace (val) {
+      return val
     }
   },
   // 监听器
@@ -54,7 +151,6 @@ export default {
       this.init()
     }
   },
-
   // 生命周期方法（在路由切换，组件不变的情况下不会被调用）
   created () {
     // console.log('form created ......')
@@ -63,6 +159,7 @@ export default {
 
   methods: {
     handleChange (val) {
+      // eslint-disable-next-line no-console
       console.log(val)
     },
     // 表单初始化
@@ -76,7 +173,6 @@ export default {
         this.fetchQrcodeByQrcode(qrcodeStr)
       } else {
         // 对象拓展运算符：拷贝对象，而不是赋值对象的引用
-        // this.pests = { ...defaultForm }
       }
     },
     async fetchQrcodeByQrcode (qrcodeStr) {
@@ -99,35 +195,21 @@ export default {
     },
     // 根据id查询记录
     async fetchDataById (qrcodeStr) {
-      const pest = await this.$axios.$get(process.env.baseUrl + `/educenter/pests/getPestsControlByQrcode/${qrcodeStr}`)
+      const pest = await this.$axios.$get(process.env.baseUrl + `/educenter/trap/getByQrcode/${qrcodeStr}`)
       if (pest.success) {
-        if (pest.data.teacher == null) {
-          // eslint-disable-next-line no-console
-          console.log('')
+        if (pest.data.trap == null) {
           this.showDetail = false
           this.title = '【二维码】未使用过'
         } else {
-          this.pests = pest.data.teacher
-          // eslint-disable-next-line no-console
-          console.log(this.pests)
+          this.trapList = pest.data.trap
         }
       } else {
         this.showDetail = false
         this.title = '无相关数据'
       }
-
-      // pestsApi.getByQrcode(qrcode).then((response) => {
-      //   this.pests = response.data.teacher
-      //   projectApi.getById(this.pests.userId).then((response) => {
-      //     this.project = response.data.teacher
-      //   })
-      //   memberApi.getById(this.pests.projectId).then((response) => {
-      //     this.member = response.data.teacher
-      //   })
-      //   qrcodeApi.getOneByQrcode(this.pests.qrcode).then((response) => {
-      //     this.qrcode = response.data.teacher
-      //   })
-      // })
+    },
+    lrelaces (val) {
+      return true
     }
   }
 }
@@ -135,4 +217,14 @@ export default {
 
 <style>
 
+  .title {
+    font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
+      "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    display: block;
+    font-weight: 300;
+    font-size: 40px;
+    color: #35495e;
+    letter-spacing: 1px;
+    text-align: center;
+  }
 </style>

@@ -3,7 +3,7 @@
     <div>
       <Logo />
       <h5 id="title" ref="title" class="title">
-        {{ title }}
+        {{ title }} - {{ qrcode.codeInt }}
       </h5>
       <div v-show="showDetail" id="detail" ref="detail" class="links">
         <div id="selected_rcds_detail" style="">
@@ -56,10 +56,7 @@
                     data-ossfile="mpld_3_73_rcd_14638_606.jpg"
                     style="height: 380px;"
                   >
-                    <img
-                      class="imgStyle"
-                      :src="pests.fellPic"
-                    >
+                    <img class="imgStyle" :src="pests.fellPic">
                     <div class="photo_name">
                       砍倒照片
                     </div>
@@ -77,10 +74,7 @@
                     data-ossfile="mpld_3_73_rcd_14638_606.jpg"
                     style="height: 380px;"
                   >
-                    <img
-                      class="imgStyle"
-                      :src="pests.stumpPic"
-                    >
+                    <img class="imgStyle" :src="pests.stumpPic">
                     <div class="photo_name">
                       树桩照片
                     </div>
@@ -98,10 +92,7 @@
                     data-ossfile="mpld_3_73_rcd_14638_607.jpg"
                     style="height: 380px;"
                   >
-                    <img
-                      class="imgStyle"
-                      :src="pests.finishPic"
-                    >
+                    <img class="imgStyle" :src="pests.finishPic">
                     <div class="photo_name">
                       处理好照片
                     </div>
@@ -141,7 +132,10 @@
                   小班
                 </td>
                 <td class="value_column">
-                  <div class="action_text record_detail_link" data-recordid="17499">
+                  <div
+                    class="action_text record_detail_link"
+                    data-recordid="17499"
+                  >
                     {{ pests.xb }}
                   </div>
                 </td>
@@ -163,7 +157,10 @@
                   二维码编号
                 </td>
                 <td class="value_column">
-                  <div class="action_text entity_detail_link" data-entityid="17499">
+                  <div
+                    class="action_text entity_detail_link"
+                    data-entityid="17499"
+                  >
                     {{ pests.qrcode }}
                   </div>
                 </td>
@@ -177,7 +174,6 @@
 </template>
 
 <script>
-
 export default {
   filters: {
     formatDate (value) {
@@ -215,6 +211,7 @@ export default {
       ]
     }
   },
+
   // 监听器
   watch: {
     $route (to, from) {
@@ -247,7 +244,9 @@ export default {
       }
     },
     async fetchQrcodeByQrcode (qrcodeStr) {
-      const qrcodeObje = await this.$axios.$get(process.env.baseUrl + `/educenter/qrcode/getOneByQrcode/${qrcodeStr}`)
+      const qrcodeObje = await this.$axios.$get(
+        process.env.baseUrl + `/educenter/qrcode/getOneByQrcode/${qrcodeStr}`
+      )
       if (qrcodeObje.success) {
         if (qrcodeObje.data.teacher == null) {
           // eslint-disable-next-line no-console
@@ -266,7 +265,10 @@ export default {
     },
     // 根据id查询记录
     async fetchDataById (qrcodeStr) {
-      const pest = await this.$axios.$get(process.env.baseUrl + `/educenter/pests/getPestsControlByQrcode/${qrcodeStr}`)
+      const pest = await this.$axios.$get(
+        process.env.baseUrl +
+          `/educenter/pests/getPestsControlByQrcode/${qrcodeStr}`
+      )
       if (pest.success) {
         if (pest.data.teacher == null) {
           // eslint-disable-next-line no-console
@@ -309,21 +311,13 @@ export default {
   align-items: center;
   text-align: center;
 }
-.imgStyle{
+.imgStyle {
   width: 400px;
   height: 400px;
 }
 .title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
+  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   display: block;
   font-weight: 300;
   font-size: 40px;
@@ -343,80 +337,80 @@ export default {
   padding-top: 15px;
 }
 .name_column {
-        min-width: 120px;
-        border-right: 1px solid #ececec;
-        background-color: #fafafa;
-      }
-      .value_column {
-        width: 50%;
-        padding: 0.6em;
-        border-bottom: 1px solid #ececec;
-      }
-      .field_value_tbl {
-        border-spacing: 0;
-        border-collapse: collapse;
-        width: 100%;
-        margin: 16px 0 0 0;
-      }
-      .photo_column {
-        padding: 0;
-        background-color: #fafafa;
-        overflow: hidden;
-      }
-      .photo_box {
-        position: relative;
-        min-height: 150px;
-      }
-      .photo_name {
-        position: absolute;
-        padding: 4px 16px;
-        top: 15px;
-        left: 15px;
-        border-radius: 3px;
-        background-color: rgba(0, 0, 0, 0.38);
-        color: white;
-      }
-      .photo_failed_msg {
-        display: none;
-        position: relative;
-        margin-top: 32px;
-        color: #f41616;
-      }
-      .photo_busy_ind {
-        display: none;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        height: 40px;
-        width: 40px;
-        margin-left: -20px;
-        margin-top: -20px;
-        -webkit-animation: rotation 0.6s infinite linear;
-        -moz-animation: rotation 0.6s infinite linear;
-        -o-animation: rotation 0.6s infinite linear;
-        animation: rotation 0.6s infinite linear;
-        border-left: 4px solid #c3c3c3;
-        border-right: 4px solid #c3c3c3;
-        border-bottom: 4px solid #c3c3c3;
-        border-top: 4px solid #777;
-        -webkit-border-radius: 100%;
-        -moz-border-radius: 100%;
-        -ms-border-radius: 100%;
-        -o-border-radius: 100%;
-        border-radius: 100%;
-      }
-      .delete_rcd_button {
-        margin: 1em 0;
-        padding: 0.8em;
-        background-color: red;
-        border-radius: 4px;
-      }
-      .button {
-        text-align: center;
-        cursor: pointer;
-        overflow: visible;
-        text-decoration: none;
-        color: white;
-        background-color: #007aff;
-      }
+  min-width: 120px;
+  border-right: 1px solid #ececec;
+  background-color: #fafafa;
+}
+.value_column {
+  width: 50%;
+  padding: 0.6em;
+  border-bottom: 1px solid #ececec;
+}
+.field_value_tbl {
+  border-spacing: 0;
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0 0 0;
+}
+.photo_column {
+  padding: 0;
+  background-color: #fafafa;
+  overflow: hidden;
+}
+.photo_box {
+  position: relative;
+  min-height: 150px;
+}
+.photo_name {
+  position: absolute;
+  padding: 4px 16px;
+  top: 15px;
+  left: 15px;
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.38);
+  color: white;
+}
+.photo_failed_msg {
+  display: none;
+  position: relative;
+  margin-top: 32px;
+  color: #f41616;
+}
+.photo_busy_ind {
+  display: none;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 40px;
+  width: 40px;
+  margin-left: -20px;
+  margin-top: -20px;
+  -webkit-animation: rotation 0.6s infinite linear;
+  -moz-animation: rotation 0.6s infinite linear;
+  -o-animation: rotation 0.6s infinite linear;
+  animation: rotation 0.6s infinite linear;
+  border-left: 4px solid #c3c3c3;
+  border-right: 4px solid #c3c3c3;
+  border-bottom: 4px solid #c3c3c3;
+  border-top: 4px solid #777;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  -ms-border-radius: 100%;
+  -o-border-radius: 100%;
+  border-radius: 100%;
+}
+.delete_rcd_button {
+  margin: 1em 0;
+  padding: 0.8em;
+  background-color: red;
+  border-radius: 4px;
+}
+.button {
+  text-align: center;
+  cursor: pointer;
+  overflow: visible;
+  text-decoration: none;
+  color: white;
+  background-color: #007aff;
+}
 </style>
